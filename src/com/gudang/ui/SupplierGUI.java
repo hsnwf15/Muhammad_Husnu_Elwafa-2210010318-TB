@@ -180,7 +180,7 @@ public class SupplierGUI extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID", "Nama", "Stok", "Harga"
+                "ID", "Nama", "Alamat", "Telepon"
             }
         ));
         jScrollPane2.setViewportView(tableSupplier);

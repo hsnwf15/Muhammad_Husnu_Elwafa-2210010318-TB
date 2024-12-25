@@ -25,6 +25,26 @@ public class BarangGUI extends javax.swing.JFrame {
     private DefaultTableModel tableModel;
     public BarangGUI() {
         initComponents();
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Nama", "Stok", "Harga"}, 0);
+        tableBarang.setModel(tableModel);
+        loadData();
+        // Pastikan ini berada setelah tableBarang diinisialisasi
+        tableBarang.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && tableBarang.getSelectedRow() != -1) {
+                int selectedRow = tableBarang.getSelectedRow();
+
+                // Ambil data dari model tabel
+                String namaBarang = (String) tableBarang.getValueAt(selectedRow, 1); // Kolom 1 untuk nama barang
+                int stok = (int) tableBarang.getValueAt(selectedRow, 2); // Kolom 2 untuk stok
+                double harga = (double) tableBarang.getValueAt(selectedRow, 3); // Kolom 3 untuk harga
+
+                // Set data ke text field untuk bisa diedit
+                txtNamaBarang.setText(namaBarang);
+                txtStok.setText(String.valueOf(stok));
+                txtHarga.setText(String.valueOf(harga));
+            }
+        });
+
     }
 
     private void tambahBarang() {
@@ -42,26 +62,57 @@ public class BarangGUI extends javax.swing.JFrame {
     }
 
     private void editBarang() {
-        int selectedRow = tableBarang.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Pilih barang yang ingin diedit!");
-            return;
-        }
-
-        int idBarang = (int) tableModel.getValueAt(selectedRow, 0);
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("UPDATE barang SET nama_barang = ?, stok = ?, harga = ? WHERE id_barang = ?")) {
-            stmt.setString(1, txtNamaBarang.getText());
-            stmt.setInt(2, Integer.parseInt(txtStok.getText()));
-            stmt.setDouble(3, Double.parseDouble(txtHarga.getText()));
-            stmt.setInt(4, idBarang);
-            stmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Barang berhasil diperbarui!");
-            loadData();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
-        }
+    int selectedRow = tableBarang.getSelectedRow();
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Pilih barang yang ingin diedit!");
+        return;
     }
+
+    // Validasi input
+    String namaBarang = txtNamaBarang.getText().trim();
+    String stokText = txtStok.getText().trim();
+    String hargaText = txtHarga.getText().trim();
+
+    if (namaBarang.isEmpty() || stokText.isEmpty() || hargaText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Semua field harus diisi!");
+        return;
+    }
+
+    int stok;
+    double harga;
+
+    try {
+        stok = Integer.parseInt(stokText);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Stok harus berupa angka!");
+        return;
+    }
+
+    try {
+        harga = Double.parseDouble(hargaText);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Harga harus berupa angka!");
+        return;
+    }
+
+    int idBarang = (int) tableModel.getValueAt(selectedRow, 0);
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(
+             "UPDATE barang SET nama_barang = ?, stok = ?, harga = ? WHERE id_barang = ?"
+         )) {
+        stmt.setString(1, namaBarang);
+        stmt.setInt(2, stok);
+        stmt.setDouble(3, harga);
+        stmt.setInt(4, idBarang);
+        stmt.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Barang berhasil diperbarui!");
+        loadData();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+    }
+}
+
 
     private void hapusBarang() {
         int selectedRow = tableBarang.getSelectedRow();
@@ -99,6 +150,8 @@ public class BarangGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -182,9 +235,14 @@ public class BarangGUI extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "ID", "Nama", "Alamat", "Telepon"
+                "ID", "Nama", "Stok", "Harga"
             }
         ));
+        tableBarang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableBarangMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tableBarang);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -282,6 +340,10 @@ public class BarangGUI extends javax.swing.JFrame {
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         loadData();
     }//GEN-LAST:event_btnLoadActionPerformed
+
+    private void tableBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBarangMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tableBarangMouseClicked
 
     /**
      * @param args the command line arguments
