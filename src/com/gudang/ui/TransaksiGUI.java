@@ -23,6 +23,10 @@ public class TransaksiGUI extends javax.swing.JFrame {
     private DefaultTableModel tableModel;
     public TransaksiGUI() {
         initComponents();
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Barang", "Supplier", "Jumlah", "Tanggal"}, 0);
+        tableTransaksi.setModel(tableModel);
+        loadData();
+        loadComboBoxes();    
     }
 
     private void tambahTransaksi() {
@@ -93,7 +97,7 @@ public class TransaksiGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableSupplier = new javax.swing.JTable();
+        tableTransaksi = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnTambah = new javax.swing.JButton();
@@ -137,7 +141,7 @@ public class TransaksiGUI extends javax.swing.JFrame {
 
         jScrollPane2.setPreferredSize(new java.awt.Dimension(475, 180));
 
-        tableSupplier.setModel(new javax.swing.table.DefaultTableModel(
+        tableTransaksi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -148,7 +152,7 @@ public class TransaksiGUI extends javax.swing.JFrame {
                 "ID", "Barang", "Supplier", "Jumlah", "Tanggal"
             }
         ));
-        jScrollPane2.setViewportView(tableSupplier);
+        jScrollPane2.setViewportView(tableTransaksi);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -274,7 +278,7 @@ public class TransaksiGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tableSupplier;
+    private javax.swing.JTable tableTransaksi;
     private javax.swing.JTextField txtJumlah;
     // End of variables declaration//GEN-END:variables
 }

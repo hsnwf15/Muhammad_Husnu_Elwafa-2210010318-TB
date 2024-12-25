@@ -21,6 +21,8 @@ public class LaporanGUI extends javax.swing.JFrame {
     private DefaultTableModel tableModel;
     public LaporanGUI() {
         initComponents();
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Barang", "Supplier", "Jumlah", "Tanggal"}, 0);
+        tableLaporan.setModel(tableModel);
         loadData();
     }
 
