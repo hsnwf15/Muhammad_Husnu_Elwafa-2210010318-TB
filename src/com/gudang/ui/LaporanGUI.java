@@ -34,6 +34,8 @@ public class LaporanGUI extends javax.swing.JFrame {
         tableModel = new DefaultTableModel(new Object[]{"ID", "Barang", "Supplier", "Jumlah", "Tanggal"}, 0);
         tableLaporan.setModel(tableModel);
         loadData();
+        setLocationRelativeTo(null); // Form muncul di tengah layar
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     private void loadData() {

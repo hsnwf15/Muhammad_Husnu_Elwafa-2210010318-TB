@@ -25,6 +25,8 @@ public class TransaksiGUI extends javax.swing.JFrame {
         initComponents();
         tableModel = new DefaultTableModel(new Object[]{"ID", "Barang", "Supplier", "Jumlah", "Tanggal"}, 0);
         tableTransaksi.setModel(tableModel);
+        setLocationRelativeTo(null); // Form muncul di tengah layar
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         loadData();
         loadComboBoxes();    
     }
@@ -226,6 +228,7 @@ public class TransaksiGUI extends javax.swing.JFrame {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         tambahTransaksi();
+        txtJumlah.setText("");
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed

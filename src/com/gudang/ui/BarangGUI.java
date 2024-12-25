@@ -28,7 +28,8 @@ public class BarangGUI extends javax.swing.JFrame {
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nama", "Stok", "Harga"}, 0);
         tableBarang.setModel(tableModel);
         loadData();
-        
+        setLocationRelativeTo(null); // Form muncul di tengah layar
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         tableBarang.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tableBarang.getSelectedRow() != -1) {
                 int selectedRow = tableBarang.getSelectedRow();
@@ -327,6 +328,9 @@ public class BarangGUI extends javax.swing.JFrame {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         tambahBarang();
+        txtNamaBarang.setText("");
+        txtStok.setText("");
+        txtHarga.setText("");
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed

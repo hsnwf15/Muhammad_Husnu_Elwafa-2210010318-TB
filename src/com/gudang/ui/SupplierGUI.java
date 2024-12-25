@@ -26,7 +26,8 @@ public class SupplierGUI extends javax.swing.JFrame {
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nama", "Alamat", "Telepon"}, 0);
         tableSupplier.setModel(tableModel);
         loadData();
-        
+        setLocationRelativeTo(null); // Form muncul di tengah layar
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         tableSupplier.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tableSupplier.getSelectedRow() != -1) {
                 int selectedRow = tableSupplier.getSelectedRow();
@@ -294,6 +295,9 @@ public class SupplierGUI extends javax.swing.JFrame {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         tambahSupplier();
+        txtNamaSupplier.setText("");
+        txtAlamatSupplier.setText("");
+        txtNoTelepon.setText("");
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
