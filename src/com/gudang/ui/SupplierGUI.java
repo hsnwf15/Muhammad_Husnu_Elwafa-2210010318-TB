@@ -23,11 +23,30 @@ public class SupplierGUI extends javax.swing.JFrame {
     private DefaultTableModel tableModel;
     public SupplierGUI() {
         initComponents();
+        tableModel = new DefaultTableModel(new Object[]{"ID", "Nama", "Alamat", "Telepon"}, 0);
+        tableSupplier.setModel(tableModel);
+        loadData();
+        
+        tableSupplier.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && tableSupplier.getSelectedRow() != -1) {
+                int selectedRow = tableSupplier.getSelectedRow();
+
+                // Ambil data dari model tabel
+                String namaBarang = (String) tableSupplier.getValueAt(selectedRow, 1); // Kolom 1 untuk nama supplier
+                String alamat = (String) tableSupplier.getValueAt(selectedRow, 2); // Kolom 2 untuk alamat
+                String telepon = (String) tableSupplier.getValueAt(selectedRow, 3); // Kolom 3 untuk telepon
+
+                // Set data ke text field untuk bisa diedit
+                txtNamaSupplier.setText(namaBarang);
+                txtAlamatSupplier.setText(alamat);
+                txtNoTelepon.setText(telepon);
+            }
+        });
     }
 
     private void tambahSupplier() {
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("INSERT INTO supplier (nama_supplier, alamat, telepon) VALUES (?, ?, ?)")) {
+            PreparedStatement stmt = conn.prepareStatement("INSERT INTO supplier (nama_supplier, alamat, kontak) VALUES (?, ?, ?)")) {
             stmt.setString(1, txtNamaSupplier.getText());
             stmt.setString(2, txtAlamatSupplier.getText());
             stmt.setString(3, txtNoTelepon.getText());
@@ -48,7 +67,7 @@ public class SupplierGUI extends javax.swing.JFrame {
 
         int idSupplier = (int) tableModel.getValueAt(selectedRow, 0);
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("UPDATE supplier SET nama_supplier = ?, alamat = ?, telepon = ? WHERE id_supplier = ?")) {
+             PreparedStatement stmt = conn.prepareStatement("UPDATE supplier SET nama_supplier = ?, alamat = ?, kontak = ? WHERE id_supplier = ?")) {
             stmt.setString(1, txtNamaSupplier.getText());
             stmt.setString(2, txtAlamatSupplier.getText());
             stmt.setString(3, txtNoTelepon.getText());
@@ -90,7 +109,7 @@ public class SupplierGUI extends javax.swing.JFrame {
                         rs.getInt("id_supplier"),
                         rs.getString("nama_supplier"),
                         rs.getString("alamat"),
-                        rs.getString("telepon")
+                        rs.getString("kontak")
                 });
             }
         } catch (SQLException e) {

@@ -28,7 +28,7 @@ public class BarangGUI extends javax.swing.JFrame {
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nama", "Stok", "Harga"}, 0);
         tableBarang.setModel(tableModel);
         loadData();
-        // Pastikan ini berada setelah tableBarang diinisialisasi
+        
         tableBarang.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tableBarang.getSelectedRow() != -1) {
                 int selectedRow = tableBarang.getSelectedRow();
