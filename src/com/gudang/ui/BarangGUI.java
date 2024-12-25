@@ -28,9 +28,7 @@ public class BarangGUI extends javax.swing.JFrame {
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nama", "Stok", "Harga"}, 0);
         tableBarang.setModel(tableModel);
         loadData();
-        setLocationRelativeTo(null); // Form muncul di tengah layar
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Form hanya menutup dirinya sendiri
-        setLayout(null); // Atur layout sesuai kebutuhan
+        
         tableBarang.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tableBarang.getSelectedRow() != -1) {
                 int selectedRow = tableBarang.getSelectedRow();

@@ -26,9 +26,7 @@ public class SupplierGUI extends javax.swing.JFrame {
         tableModel = new DefaultTableModel(new Object[]{"ID", "Nama", "Alamat", "Telepon"}, 0);
         tableSupplier.setModel(tableModel);
         loadData();
-        setLocationRelativeTo(null); // Form muncul di tengah layar
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Form hanya menutup dirinya sendiri
-        setLayout(null); // Atur layout sesuai kebutuhan
+        
         tableSupplier.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && tableSupplier.getSelectedRow() != -1) {
                 int selectedRow = tableSupplier.getSelectedRow();
