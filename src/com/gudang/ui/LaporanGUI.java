@@ -4,7 +4,17 @@
  */
 package com.gudang.ui;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.PdfPTable;
+
+import javax.swing.*;
+import javax.swing.table.TableModel;
+import java.io.File;
 import com.gudang.database.DatabaseConnection;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -46,6 +56,51 @@ public class LaporanGUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
         }
     }
+    
+    private void saveTableToPDF() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Simpan Laporan PDF");
+            int userSelection = fileChooser.showSaveDialog(this);
+            if (userSelection != JFileChooser.APPROVE_OPTION) {
+                return;
+            }
+
+            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            if (!filePath.endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+            document.open();
+
+            // Ambil data dari JTable
+            TableModel model = tableLaporan.getModel();
+            PdfPTable pdfTable = new PdfPTable(model.getColumnCount());
+
+            // Tambahkan header tabel
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                pdfTable.addCell(model.getColumnName(i));
+            }
+
+            // Tambahkan data baris
+            for (int row = 0; row < model.getRowCount(); row++) {
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    pdfTable.addCell(String.valueOf(model.getValueAt(row, col)));
+                }
+            }
+
+            document.add(pdfTable);
+            document.close();
+
+            JOptionPane.showMessageDialog(this, "Laporan berhasil disimpan di: " + filePath);
+        } catch (IOException | DocumentException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan laporan: " + ex.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -59,6 +114,7 @@ public class LaporanGUI extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tableLaporan = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
+        btnSimpanPDF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -80,8 +136,9 @@ public class LaporanGUI extends javax.swing.JFrame {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(24, 24, 24, 24);
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(10, 24, 24, 24);
         getContentPane().add(jScrollPane2, gridBagConstraints);
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -89,11 +146,30 @@ public class LaporanGUI extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new java.awt.Insets(16, 0, 0, 0);
         getContentPane().add(jLabel4, gridBagConstraints);
 
+        btnSimpanPDF.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSimpanPDF.setText("Simpan ke PDF");
+        btnSimpanPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanPDFActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_END;
+        gridBagConstraints.insets = new java.awt.Insets(4, 24, 0, 24);
+        getContentPane().add(btnSimpanPDF, gridBagConstraints);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSimpanPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanPDFActionPerformed
+        saveTableToPDF();
+    }//GEN-LAST:event_btnSimpanPDFActionPerformed
 
     /**
      * @param args the command line arguments
@@ -131,6 +207,7 @@ public class LaporanGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSimpanPDF;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tableLaporan;
