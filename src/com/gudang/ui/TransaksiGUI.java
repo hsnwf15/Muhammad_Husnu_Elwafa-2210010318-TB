@@ -27,6 +27,9 @@ public class TransaksiGUI extends javax.swing.JFrame {
         tableTransaksi.setModel(tableModel);
         loadData();
         loadComboBoxes();    
+        setLocationRelativeTo(null); // Form muncul di tengah layar
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Form hanya menutup dirinya sendiri
+        setLayout(null); // Atur layout sesuai kebutuhan
     }
 
     private void tambahTransaksi() {

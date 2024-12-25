@@ -15,6 +15,7 @@ public class MainGUI extends javax.swing.JFrame {
      */
     public MainGUI() {
         initComponents();
+        
     }
 
     /**
@@ -28,10 +29,10 @@ public class MainGUI extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnBarang = new javax.swing.JButton();
+        btnSupplier = new javax.swing.JButton();
+        btnTransaksi = new javax.swing.JButton();
+        btnLaporan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.GridBagLayout());
@@ -44,50 +45,78 @@ public class MainGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(40, 78, 28, 78);
         getContentPane().add(jLabel1, gridBagConstraints);
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Barang");
+        btnBarang.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBarang.setText("Barang");
+        btnBarang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBarangActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(1, 75, 10, 75);
-        getContentPane().add(jButton1, gridBagConstraints);
+        getContentPane().add(btnBarang, gridBagConstraints);
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton2.setText("Suppplier");
+        btnSupplier.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSupplier.setText("Supplier");
+        btnSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSupplierActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(1, 75, 10, 75);
-        getContentPane().add(jButton2, gridBagConstraints);
+        getContentPane().add(btnSupplier, gridBagConstraints);
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton3.setText("Transaksi");
+        btnTransaksi.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnTransaksi.setText("Transaksi");
+        btnTransaksi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTransaksiActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(1, 75, 10, 75);
-        getContentPane().add(jButton3, gridBagConstraints);
+        getContentPane().add(btnTransaksi, gridBagConstraints);
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton4.setText("Laporan");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        btnLaporan.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnLaporan.setText("Laporan");
+        btnLaporan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                btnLaporanActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new java.awt.Insets(1, 75, 54, 75);
-        getContentPane().add(jButton4, gridBagConstraints);
+        getContentPane().add(btnLaporan, gridBagConstraints);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    private void btnLaporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaporanActionPerformed
+        new LaporanGUI().setVisible(true);
+    }//GEN-LAST:event_btnLaporanActionPerformed
 
+    private void btnBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBarangActionPerformed
+        new BarangGUI().setVisible(true);
+    }//GEN-LAST:event_btnBarangActionPerformed
+
+    private void btnTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransaksiActionPerformed
+        new TransaksiGUI().setVisible(true);
+    }//GEN-LAST:event_btnTransaksiActionPerformed
+
+    private void btnSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSupplierActionPerformed
+        new SupplierGUI().setVisible(true);
+    }//GEN-LAST:event_btnSupplierActionPerformed
+
+    
     /**
      * @param args the command line arguments
      */
@@ -124,10 +153,10 @@ public class MainGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnBarang;
+    private javax.swing.JButton btnLaporan;
+    private javax.swing.JButton btnSupplier;
+    private javax.swing.JButton btnTransaksi;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
