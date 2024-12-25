@@ -133,7 +133,7 @@ public class TransaksiGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 13, 12, 13);
         getContentPane().add(jLabel2, gridBagConstraints);
 
-        jLabel3.setText("Jumlah:");
+        jLabel3.setText("Jumlah Transaksi:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -215,6 +215,11 @@ public class TransaksiGUI extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 12, 0);
         getContentPane().add(comboBarang, gridBagConstraints);
 
+        comboSupplier.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                comboSupplierActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -234,6 +239,10 @@ public class TransaksiGUI extends javax.swing.JFrame {
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         loadData();
     }//GEN-LAST:event_btnLoadActionPerformed
+
+    private void comboSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSupplierActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_comboSupplierActionPerformed
 
     /**
      * @param args the command line arguments
