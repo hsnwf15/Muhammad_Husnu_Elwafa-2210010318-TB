@@ -5,12 +5,19 @@
 package com.gudang.ui;
 
 import com.gudang.database.DatabaseConnection;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.*;
+import javax.swing.table.TableModel;
 /**
  *
  * @author Lenovo
@@ -82,6 +89,51 @@ public class TransaksiGUI extends javax.swing.JFrame {
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+        }
+    }
+    
+    private void saveTableToPDF() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Simpan Laporan PDF");
+            int userSelection = fileChooser.showSaveDialog(this);
+            if (userSelection != JFileChooser.APPROVE_OPTION) {
+                return;
+            }
+
+            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            if (!filePath.endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+            document.open();
+
+            // Ambil data dari JTable
+            TableModel model = tableTransaksi.getModel();
+            PdfPTable pdfTable = new PdfPTable(model.getColumnCount());
+
+            // Tambahkan header tabel
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                pdfTable.addCell(model.getColumnName(i));
+            }
+
+            // Tambahkan data baris
+            for (int row = 0; row < model.getRowCount(); row++) {
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    pdfTable.addCell(String.valueOf(model.getValueAt(row, col)));
+                }
+            }
+
+            document.add(pdfTable);
+            document.close();
+
+            JOptionPane.showMessageDialog(this, "Laporan berhasil disimpan di: " + filePath);
+        } catch (IOException | DocumentException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan laporan: " + ex.getMessage());
         }
     }
     /**
@@ -188,7 +240,7 @@ public class TransaksiGUI extends javax.swing.JFrame {
         jPanel1.add(btnTambah, gridBagConstraints);
 
         btnLoad.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnLoad.setText("Load Data");
+        btnLoad.setText("Buat Laporan Transaksi");
         btnLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadActionPerformed(evt);
@@ -232,12 +284,16 @@ public class TransaksiGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        tambahTransaksi();
-        txtJumlah.setText("");
+        if (txtJumlah.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Jumlah belum diisi!");
+        } else {
+            tambahTransaksi();
+            txtJumlah.setText("");
+        }
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
-        loadData();
+        saveTableToPDF();
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void comboSupplierActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboSupplierActionPerformed

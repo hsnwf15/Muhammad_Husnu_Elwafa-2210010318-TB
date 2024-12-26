@@ -6,13 +6,20 @@ package com.gudang.ui;
 
 import com.gudang.database.DatabaseConnection;
 import com.gudang.model.Barang;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
+import javax.swing.table.TableModel;
 /**
  *
  * @author Lenovo
@@ -152,7 +159,50 @@ public class BarangGUI extends javax.swing.JFrame {
         }
     }
     
-    
+    private void saveTableToPDF() {
+        try {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Simpan Laporan PDF");
+            int userSelection = fileChooser.showSaveDialog(this);
+            if (userSelection != JFileChooser.APPROVE_OPTION) {
+                return;
+            }
+
+            String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+            if (!filePath.endsWith(".pdf")) {
+                filePath += ".pdf";
+            }
+
+            Document document = new Document();
+            PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+            document.open();
+
+            // Ambil data dari JTable
+            TableModel model = tableBarang.getModel();
+            PdfPTable pdfTable = new PdfPTable(model.getColumnCount());
+
+            // Tambahkan header tabel
+            for (int i = 0; i < model.getColumnCount(); i++) {
+                pdfTable.addCell(model.getColumnName(i));
+            }
+
+            // Tambahkan data baris
+            for (int row = 0; row < model.getRowCount(); row++) {
+                for (int col = 0; col < model.getColumnCount(); col++) {
+                    pdfTable.addCell(String.valueOf(model.getValueAt(row, col)));
+                }
+            }
+
+            document.add(pdfTable);
+            document.close();
+
+            JOptionPane.showMessageDialog(this, "Laporan berhasil disimpan di: " + filePath);
+        } catch (IOException | DocumentException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Gagal menyimpan laporan: " + ex.getMessage());
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -304,7 +354,7 @@ public class BarangGUI extends javax.swing.JFrame {
         jPanel1.add(btnTambah, gridBagConstraints);
 
         btnLoad.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnLoad.setText("Load Data");
+        btnLoad.setText("Buat Laporan Barang");
         btnLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoadActionPerformed(evt);
@@ -327,10 +377,18 @@ public class BarangGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-        tambahBarang();
-        txtNamaBarang.setText("");
-        txtStok.setText("");
-        txtHarga.setText("");
+        if (txtNamaBarang.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Nama Barang Belum diisi!");
+        } else if (txtStok.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Stok belum diisi!");
+        } else if (txtHarga.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Harga belum diisi!");
+        } else {
+            tambahBarang();
+            txtNamaBarang.setText("");
+            txtStok.setText("");
+            txtHarga.setText("");
+        }
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -342,7 +400,7 @@ public class BarangGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHapusActionPerformed
 
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
-        loadData();
+        saveTableToPDF();
     }//GEN-LAST:event_btnLoadActionPerformed
 
     private void tableBarangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableBarangMouseClicked
