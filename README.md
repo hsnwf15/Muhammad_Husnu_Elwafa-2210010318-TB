@@ -76,11 +76,35 @@ Aplikasi Manajemen Inventaris ini dirancang untuk merampingkan dan mengelola ope
 
 ## Screenshots
 
+### 1. Menu Utama Aplikasi Gudang
+  ![](menuUtama.PNG)
 
----
+### 2. Form Manajemen Barang
+  ![](barang.PNG)
 
-## License
-This project is licensed under the [MIT License](LICENSE).
+### 3. Form Manajemen Supplier
+  ![](supplier.PNG)
+
+### 4. Form Manajemen Transaksi
+  ![](transaksi.PNG)
+
+### 5. Memvalidasi bahwa Nama Barang belum diisi
+  ![](validasi.PNG)
+
+### 6. Memvalidasi bahwa baris yang ingin diedit belum dipilih
+  ![](validasi2.PNG)
+
+### 7. Memvalidasi bahwa baris yang ingin dihapus belum dipilih
+  ![](validasi3.PNG)
+
+### 8. Laporan barang dalam bentuk file PDF
+  ![](laporanbarang.PNG)
+
+### 9. Laporan supplier dalam bentuk file PDF
+  ![](laporansupplier.PNG)
+
+### 10. Laporan transaksi dalam bentuk file PDF
+  ![](laporantransaksi.PNG)
 
 ---
 
